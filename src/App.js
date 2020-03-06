@@ -16,7 +16,19 @@ function App() {
 
 	const addItem = item => {
 		// add the given item to the cart
-		setCart([...cart,item]);
+		if(cart.length !==0) {			
+			const chk_item_in_cart = cart.filter(cartItem => cartItem.id === item.id);
+			if(chk_item_in_cart.length === 0)
+			setCart([...cart,item]);
+		}
+		else {
+		  setCart([...cart,item]);
+		}  
+	};
+
+	const removeItem  = item => {
+		// remove the item form the cart	
+		setCart(cart.filter(cartItem => cartItem.id !== item.id));		
 	};
 
 	return (
@@ -24,13 +36,14 @@ function App() {
 		<ProductContext.Provider
 		  value={{
 			   products: products, 
-			   addItem: addItem
+			   addItem: addItem			  
 		  }}
 		>
         
 			<CartContext.Provider
 			   value={{
-                  cart: cart
+				  cart: cart,
+				  removeItem: removeItem
 			   }}
 			>
 			
